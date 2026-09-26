@@ -24,7 +24,7 @@ public class Main {
                 0. Exit
                 """);
         System.out.print("Enter Your Choice: ");
-        String Choice = scanner.nextLine().trim();
+        String choice = scanner.nextLine().trim();
 //        System.out.println("Choice:            " + Choice);
 
         //calling methods on the basis of user input
@@ -42,7 +42,18 @@ public class Main {
     }
 
     private static void openAccount(Scanner scanner){
+        System.out.println("Enter Customer Name: ");
+        String name = scanner.nextLine().trim();
 
+        System.out.println("Enter Customer Email: ");
+        String email = scanner.nextLine().trim();
+
+        System.out.println("Enter Account Type(SAVING/CURRENT): ");
+        String type = scanner.nextLine().trim();
+
+        System.out.println("Enter Initial Deposite(Optional blank for 0)");
+        String amountStr = scanner.nextLine().trim();
+        Double initial = Double.valueOf(amountStr);
     }
 
     private static void deposite(Scanner scanner){
