@@ -7,7 +7,7 @@ public class Main {
         System.out.println("Welcome To Console Bank");
 
         //Input From User
-        Scanner sc = new Scanner(System.in);
+        Scanner scanner = new Scanner(System.in);
 
         //To keep the user enter
         boolean running = true;
@@ -24,12 +24,52 @@ public class Main {
                 0. Exit
                 """);
         System.out.print("Enter Your Choice: ");
-        String Choice = sc.nextLine().trim();
-        System.out.println("Choice:            " + Choice);
+        String Choice = scanner.nextLine().trim();
+//        System.out.println("Choice:            " + Choice);
 
+        //calling methods on the basis of user input
         switch (choice){
+            case "1" -> openAccount(scanner);
+            case "2" -> deposite(scanner);
+            case "3" -> withdraw(scanner);
+            case "4" -> transfer(scanner);
+            case "5" -> statement(scanner);
+            case "6" -> listAccounts(scanner);
+            case "7" -> searchAccounts(scanner);
             case "0" -> running = false;
         }
         }
     }
+
+    private static void openAccount(Scanner scanner){
+
+    }
+
+    private static void deposite(Scanner scanner){
+
+    }
+
+    private static void withdraw(Scanner scanner){
+
+    }
+
+    private static void transfer(Scanner scanner){
+
+    }
+
+    private static void statement(Scanner scanner){
+
+    }
+
+    private static void listAccounts(Scanner scanner){
+
+    }
+
+    private static void searchAccounts(Scanner scanner){
+
+    }
+
+
+
+
 }
