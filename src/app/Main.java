@@ -53,10 +53,12 @@ public class Main {
 
         System.out.println("Enter Initial Deposite(Optional blank for 0)");
         String amountStr = scanner.nextLine().trim();
+        //Converts string into double using Double Wrapper Class
         Double initial = Double.valueOf(amountStr);
     }
 
     private static void deposite(Scanner scanner){
+
 
     }
 
