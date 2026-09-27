@@ -44,7 +44,7 @@ public class BankServiceImpl implements BankService {
         account.setBalance(account.getBalance() + amount);
         Transaction transaction = new Transaction(UUID.randomUUID().toString(), account.getAccountNumber(), Type.DEPOSIT
                 , amount, LocalDateTime.now(), note);
-        TransactionRepository.add(transaction);
+        transactionRepository.add(transaction);
     }
 
     private String getAccountNumber() {
