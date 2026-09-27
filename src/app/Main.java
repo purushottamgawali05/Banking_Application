@@ -1,5 +1,8 @@
 package app;
 
+import service.BankService;
+import service.impl.BankServiceImpl;
+
 import java.util.Scanner;
 
 public class Main {
@@ -8,6 +11,7 @@ public class Main {
 
         //Input From User
         Scanner scanner = new Scanner(System.in);
+        BankService bankService = new BankServiceImpl();
 
         //To keep the user enter
         boolean running = true;
@@ -29,7 +33,7 @@ public class Main {
 
         //calling methods on the basis of user input
         switch (choice){
-            case "1" -> openAccount(scanner);
+            case "1" -> openAccount(scanner, bankService);
             case "2" -> deposite(scanner);
             case "3" -> withdraw(scanner);
             case "4" -> transfer(scanner);
@@ -41,7 +45,7 @@ public class Main {
         }
     }
 
-    private static void openAccount(Scanner scanner){
+    private static void openAccount(Scanner scanner, BankService bankService){
         System.out.println("Enter Customer Name: ");
         String name = scanner.nextLine().trim();
 
@@ -55,6 +59,7 @@ public class Main {
         String amountStr = scanner.nextLine().trim();
         //Converts string into double using Double Wrapper Class
         Double initial = Double.valueOf(amountStr);
+        bankService.openAccount(name, email, type);
     }
 
     private static void deposite(Scanner scanner){
