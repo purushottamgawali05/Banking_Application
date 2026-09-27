@@ -34,7 +34,7 @@ public class Main {
         //calling methods on the basis of user input
         switch (choice){
             case "1" -> openAccount(scanner, bankService);
-            case "2" -> deposite(scanner);
+            case "2" -> deposite(scanner, bankService);
             case "3" -> withdraw(scanner);
             case "4" -> transfer(scanner);
             case "5" -> statement(scanner);
@@ -60,11 +60,20 @@ public class Main {
         //Converts string into double using Double Wrapper Class
         Double initial = Double.valueOf(amountStr);
         String accountNumber = bankService.openAccount(name, email, type);
+        if(initial > 0){
+            bankService.deposite(accountNumber, initial, "Deposit");
+        }
         System.out.println("Account Opened: " + accountNumber);
     }
 
-    private static void deposite(Scanner scanner){
+    private static void deposite(Scanner scanner, BankService bankService){
+        System.out.println("Account Number: ");
+        String accountNumber = scanner.nextLine().trim();
 
+        System.out.println("Amount: ");
+        Double amount = Double.valueOf(scanner.nextLine().trim());
+        bankService.deposite(accountNumber, amount, "Deposit");
+        System.out.println("Deposited");
 
     }
 

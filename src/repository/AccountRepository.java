@@ -18,4 +18,7 @@ public class AccountRepository {
             return new ArrayList<>(accountByNumber.values());
         }
 
+    public Optional<Account> findByNumber(String accountNumber) {
+        return Optional.ofNullable(accountByNumber.get(accountNumber));
+    }
 }
