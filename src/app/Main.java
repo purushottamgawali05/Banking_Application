@@ -72,7 +72,7 @@ public class Main {
 
         System.out.println("Amount: ");
         Double amount = Double.valueOf(scanner.nextLine().trim());
-        bankService.deposite(accountNumber, amount, "Deposit");
+        bankService.deposit(accountNumber, amount, "note");
         System.out.println("Deposited");
 
     }

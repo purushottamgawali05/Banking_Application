@@ -1,9 +1,13 @@
 package service.impl;
 
 import domain.Account;
+import domain.Transactions;
+import domain.Type;
 import repository.AccountRepository;
+import repository.TransactionRepository;
 import service.BankService;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Comparator;
 import java.util.UUID;
@@ -12,6 +16,7 @@ import java.util.stream.Collectors;
 public class BankServiceImpl implements BankService {
 
     public final AccountRepository accountRepository = new AccountRepository();
+    public final TransactionRepository transactionRepository = new TransactionRepository();
 
     @Override
     public String openAccount(String name, String email, String accountType){
@@ -33,10 +38,13 @@ public class BankServiceImpl implements BankService {
     }
 
     @Override
-    public void deposite(String accountNumber, Double amount, String deposit) {
+    public void deposit(String accountNumber, Double amount, String note) {
         Account account = accountRepository.findByNumber(accountNumber)
                 .orElseThrow(() -> new RuntimeException("Account Not Found: " + accountNumber));
-        account.setBalance(Double.valueOf(account.getBalance() + deposit));
+        account.setBalance(account.getBalance() + amount);
+        Transactions transactions = new Transactions(account.getAccountNumber(), amount,
+                UUID.randomUUID().toString(), note, LocalDateTime.now(), Type.DEPOSIT);
+        TransactionRepository.add(transactions);
     }
 
     private String getaccountNumber() {
