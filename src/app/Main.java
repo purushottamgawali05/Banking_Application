@@ -35,7 +35,7 @@ public class Main {
         switch (choice){
             case "1" -> openAccount(scanner, bankService);
             case "2" -> deposite(scanner, bankService);
-            case "3" -> withdraw(scanner);
+            case "3" -> withdraw(scanner, bankService);
             case "4" -> transfer(scanner);
             case "5" -> statement(scanner);
             case "6" -> listAccounts(scanner, bankService);
@@ -77,7 +77,13 @@ public class Main {
 
     }
 
-    private static void withdraw(Scanner scanner){
+    private static void withdraw(Scanner scanner, BankService bankService){
+        System.out.println("Account Number: ");
+        String accountNumber = scanner.nextLine().trim();
+        System.out.println("Amount: ");
+        Double amount = Double.valueOf(scanner.nextLine().trim());
+        bankService.withdraw(accountNumber, amount, "Withdrawal");
+        System.out.println("Withdrawn");
 
     }
 
