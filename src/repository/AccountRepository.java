@@ -1,10 +1,9 @@
 package repository;
 
 import domain.Account;
+import domain.Customer;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class AccountRepository {
 
@@ -12,11 +11,10 @@ public class AccountRepository {
     private final Map<String, Account> accountByNumber = new HashMap<>();
 
     public void save(Account account){
-
         accountByNumber.put(account.getAccountNumber(), account);
     }
 
-        public ArrayList<Account> findAll(){
+        public List<Account> findAll(){
             return new ArrayList<>(accountByNumber.values());
         }
 
