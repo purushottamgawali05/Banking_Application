@@ -35,7 +35,7 @@ public class Account {
         return accountType;
     }
 
-    public void setAccountType(){
+    public void setAccountType(String accountType){
         this.accountType = accountType;
     }
 
@@ -43,7 +43,7 @@ public class Account {
         return balance;
     }
 
-    public void setBalance(){
+    public void setBalance(Double balance){
         this.balance = balance;
     }
 }

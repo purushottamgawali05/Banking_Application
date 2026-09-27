@@ -4,7 +4,10 @@ import domain.Account;
 import repository.AccountRepository;
 import service.BankService;
 
+import java.util.List;
+import java.util.Comparator;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 public class BankServiceImpl implements BankService {
 
@@ -17,11 +20,16 @@ public class BankServiceImpl implements BankService {
         String customerId = UUID.randomUUID().toString();
 
         String accountNumber = getaccountNumber();
-
-
-        Account account = new Account(accountNumber, accountType, (double) 0, customerId);
+        Account account = new Account(accountNumber, customerId, (double) 0, accountType);
         accountRepository.save(account);
         return accountNumber;
+    }
+
+    @Override
+    public List<Account> listAccounts() {
+        return accountRepository.findAll().stream()
+                .sorted(Comparator.comparing(Account::getAccountNumber))
+                .collect(Collectors.toList());
     }
 
     private String getaccountNumber() {

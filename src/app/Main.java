@@ -38,7 +38,7 @@ public class Main {
             case "3" -> withdraw(scanner);
             case "4" -> transfer(scanner);
             case "5" -> statement(scanner);
-            case "6" -> listAccounts(scanner);
+            case "6" -> listAccounts(scanner, bankService);
             case "7" -> searchAccounts(scanner);
             case "0" -> running = false;
         }
@@ -59,7 +59,8 @@ public class Main {
         String amountStr = scanner.nextLine().trim();
         //Converts string into double using Double Wrapper Class
         Double initial = Double.valueOf(amountStr);
-        bankService.openAccount(name, email, type);
+        String accountNumber = bankService.openAccount(name, email, type);
+        System.out.println("Account Opened: " + accountNumber);
     }
 
     private static void deposite(Scanner scanner){
@@ -79,8 +80,10 @@ public class Main {
 
     }
 
-    private static void listAccounts(Scanner scanner){
-
+    private static void listAccounts(Scanner scanner, BankService bankService){
+            bankService.listAccounts().forEach(a -> {
+                System.out.println(a.getAccountNumber() + " | " + a.getAccountType() + " | " + a.getBalance());
+            });
     }
 
     private static void searchAccounts(Scanner scanner){
