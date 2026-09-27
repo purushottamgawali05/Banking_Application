@@ -61,7 +61,7 @@ public class BankServiceImpl implements BankService {
     }
 
     @Override
-    public void transfer(String fromAcc, String toAcc, Double amount, String transfer) {
+    public void transfer(String fromAcc, String toAcc, Double amount, String note) {
         //if sender's and receiver's account are same
         if(fromAcc.equals(toAcc)){
             throw new RuntimeException("Cannot transfer to your own account");
@@ -83,7 +83,13 @@ public class BankServiceImpl implements BankService {
         //Deposit to toAcc
         to.setBalance(to.getBalance() + amount);
 
-        Transaction transaction = new Transaction(from, amount, )
+        //transfer from my account to another
+        transactionRepository.add(new Transaction( UUID.randomUUID().toString(), from.getAccountNumber(),
+                Type.TRANSFER_OUT, amount, LocalDateTime.now(), note));
+
+        //transfer from another's to my account
+        transactionRepository.add(new Transaction( UUID.randomUUID().toString(), to.getAccountNumber(),
+                Type.TRANSFER_IN, amount, LocalDateTime.now(), note));
     }
 
     private String getAccountNumber() {
