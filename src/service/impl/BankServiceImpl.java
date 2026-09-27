@@ -1,7 +1,7 @@
 package service.impl;
 
 import domain.Account;
-import domain.Transactions;
+import domain.Transaction;
 import domain.Type;
 import repository.AccountRepository;
 import repository.TransactionRepository;
@@ -24,7 +24,7 @@ public class BankServiceImpl implements BankService {
         //generate random customerId and accountNumber
         String customerId = UUID.randomUUID().toString();
 
-        String accountNumber = getaccountNumber();
+        String accountNumber = getAccountNumber();
         Account account = new Account(accountNumber, customerId, (double) 0, accountType);
         accountRepository.save(account);
         return accountNumber;
@@ -42,12 +42,12 @@ public class BankServiceImpl implements BankService {
         Account account = accountRepository.findByNumber(accountNumber)
                 .orElseThrow(() -> new RuntimeException("Account Not Found: " + accountNumber));
         account.setBalance(account.getBalance() + amount);
-        Transactions transactions = new Transactions(account.getAccountNumber(), amount,
-                UUID.randomUUID().toString(), note, LocalDateTime.now(), Type.DEPOSIT);
-        TransactionRepository.add(transactions);
+        Transaction transaction = new Transaction(UUID.randomUUID().toString(), account.getAccountNumber(), Type.DEPOSIT
+                , amount, LocalDateTime.now(), note);
+        TransactionRepository.add(transaction);
     }
 
-    private String getaccountNumber() {
+    private String getAccountNumber() {
         // String accountNumber = UUID.randomUUID().toString();
         int size = accountRepository.findAll().size() + 1;
         return String.format("AC%06d", size);

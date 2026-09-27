@@ -2,7 +2,7 @@ package domain;
 
 import java.time.LocalDateTime;
 
-public class Transactions {
+public class Transaction {
 
     private String id;
     private Type type;
@@ -11,7 +11,7 @@ public class Transactions {
     private LocalDateTime timestamp;
     private String note;
 
-    public Transactions(String id, String accountNumber, Type type, Double amount, LocalDateTime timestamp, String note) {
+    public Transaction(String id, String accountNumber, Type type, Double amount, LocalDateTime timestamp, String note) {
         this.id = id;
         this.accountNumber = accountNumber;
         this.type = type;

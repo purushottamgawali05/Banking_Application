@@ -61,7 +61,7 @@ public class Main {
         Double initial = Double.valueOf(amountStr);
         String accountNumber = bankService.openAccount(name, email, type);
         if(initial > 0){
-            bankService.deposite(accountNumber, initial, "Deposit");
+            bankService.deposit(accountNumber, initial, "Initial Deposit");
         }
         System.out.println("Account Opened: " + accountNumber);
     }
