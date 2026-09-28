@@ -63,18 +63,18 @@ public class BankServiceImpl implements BankService {
     @Override
     public void transfer(String fromAcc, String toAcc, Double amount, String note) {
         //if sender's and receiver's account are same
-        if(fromAcc.equals(toAcc)){
+        if (fromAcc.equals(toAcc)) {
             throw new RuntimeException("Cannot transfer to your own account");
         }
         //finding the from account
         Account from = accountRepository.findByNumber(fromAcc)
-        //if the fromAcc Doesn't exist
+                //if the fromAcc Doesn't exist
                 .orElseThrow(() -> new RuntimeException("Account Not Found: "));
         Account to = accountRepository.findByNumber(toAcc)
-        //if the fromAcc Doesn't exist
+                //if the fromAcc Doesn't exist
                 .orElseThrow(() -> new RuntimeException("Account Not Found: "));
         //Check the account have that much money to transfer
-        if(from.getBalance().compareTo(amount) < 0){
+        if (from.getBalance().compareTo(amount) < 0) {
             throw new RuntimeException("Insufficient Balance");
         }
 
@@ -84,13 +84,13 @@ public class BankServiceImpl implements BankService {
         to.setBalance(to.getBalance() + amount);
 
         //transfer from my account to another
-        transactionRepository.add(new Transaction( UUID.randomUUID().toString(), from.getAccountNumber(),
+        transactionRepository.add(new Transaction(UUID.randomUUID().toString(), from.getAccountNumber(),
                 Type.TRANSFER_OUT, amount, LocalDateTime.now(), note));
 
         //transfer from another's to my account
-        transactionRepository.add(new Transaction( UUID.randomUUID().toString(), to.getAccountNumber(),
+        transactionRepository.add(new Transaction(UUID.randomUUID().toString(), to.getAccountNumber(),
                 Type.TRANSFER_IN, amount, LocalDateTime.now(), note));
-
+    }
 
     private String getAccountNumber() {
         // String accountNumber = UUID.randomUUID().toString();
