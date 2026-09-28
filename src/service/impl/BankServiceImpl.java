@@ -90,7 +90,7 @@ public class BankServiceImpl implements BankService {
         //transfer from another's to my account
         transactionRepository.add(new Transaction( UUID.randomUUID().toString(), to.getAccountNumber(),
                 Type.TRANSFER_IN, amount, LocalDateTime.now(), note));
-    }
+
 
     private String getAccountNumber() {
         // String accountNumber = UUID.randomUUID().toString();
