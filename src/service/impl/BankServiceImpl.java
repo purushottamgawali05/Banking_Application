@@ -19,6 +19,12 @@ public class BankServiceImpl implements BankService {
     public final TransactionRepository transactionRepository = new TransactionRepository();
 
     @Override
+    public List<Transaction> getStatement(String account) {
+        return transactionRepository.findByAccount(account).stream().sorted(Comparator.comparing(Transaction :: getTimestamp)).
+                collect(Collectors.toList());
+    }
+
+    @Override
     public String openAccount(String name, String email, String accountType){
 
         //generate random customerId and accountNumber
