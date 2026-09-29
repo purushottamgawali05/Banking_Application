@@ -20,5 +20,5 @@ public interface BankService {
 
     void transfer(String fromAcc, String toAcc, Double amount, String transfer);
 
-    List<Account> searchAccountByCustomerName(String cName);
+    List<Account> searchAccountByCustomerName(String c_name);
 }
