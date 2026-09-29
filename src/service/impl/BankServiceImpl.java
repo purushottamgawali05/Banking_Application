@@ -107,7 +107,7 @@ public class BankServiceImpl implements BankService {
         String query = (c_name == null)? "": c_name.toLowerCase();
         List<Account> result = new ArrayList<>();
         for(Customer c : customerRepository.findAll()){
-
+                if
         }
         return result;
     }
