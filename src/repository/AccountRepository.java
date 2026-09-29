@@ -15,7 +15,7 @@ public class AccountRepository {
         accountByNumber.put(account.getAccountNumber(), account);
     }
 
-        public List<Account> findAll(){
+    public List<Account> findAll(){
             return new ArrayList<>(accountByNumber.values());
         }
 

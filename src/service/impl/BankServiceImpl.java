@@ -109,20 +109,20 @@ public class BankServiceImpl implements BankService {
     @Override
     public List<Account> searchAccountByCustomerName(String c_name) {
         String query = (c_name == null)? "": c_name.toLowerCase();
-//        List<Account> result = new ArrayList<>();
-//        for(Customer c : customerRepository.findAll()){
-//                if(c.getName().toLowerCase().contains(query)){
-//                    result.addAll(accountRepository.findByCustomerId(c.getId()));
-//                }
-//        }
-//        result.sort(Comparator.comparing(Account::getAccountNumber));
-//        return result;
+        List<Account> result = new ArrayList<>();
+        for(Customer c : customerRepository.findAll()){
+                if(c.getName().toLowerCase().contains(query)){
+                    result.addAll(accountRepository.findByCustomerId(c.getId()));
+                }
+        }
+        result.sort(Comparator.comparing(Account::getAccountNumber));
+        return result;
 
-        return customerRepository.findAll().stream()
-                .filter(c -> c.getName().toLowerCase().contains(query))
-                .flatMap(c -> accountRepository.findByCustomerId(c.getId()).stream())
-                .sorted(Comparator.comparing(Account::getAccountNumber))
-                .collect(Collectors.toList());
+//        return customerRepository.findAll().stream()
+//                .filter(c -> c.getName().toLowerCase().contains(query))
+//                .flatMap(c -> accountRepository.findByCustomerId(c.getId()).stream())
+//                .sorted(Comparator.comparing(Account::getAccountNumber))
+//                .collect(Collectors.toList());
     }
 
     private String getAccountNumber() {

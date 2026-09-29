@@ -102,7 +102,7 @@ public class Main {
         System.out.println("Account Number: ");
         String account = scanner.nextLine().trim();
         bankService.getStatement(account).forEach(t -> {
-            System.out.println(t.getTimestamp() + " | " + t.getTimestamp() + " | " + t.getAmount() + " | " + t.getNote());
+            System.out.println(t.getTimestamp() + " | " + t.getType() + " | " + t.getAmount() + " | " + t.getNote());
         });
     }
 
@@ -119,8 +119,4 @@ public class Main {
                 System.out.println(account.getAccountNumber() + " | " + account.getAccountType() + " | " + account.getBalance())
         );
     }
-
-
-
-
 }
