@@ -121,6 +121,7 @@ public class BankServiceImpl implements BankService {
         return customerRepository.findAll().stream()
                 .filter(c -> c.getName().toLowerCase().contains(query))
                 .flatMap(c -> accountRepository.findByCustomerId(c.getId()).stream())
+                .sorted(Comparator.comparing(Account::getAccountNumber))
                 .collect(Collectors.toList());
     }
 
