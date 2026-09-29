@@ -19,4 +19,6 @@ public interface BankService {
     void withdraw(String accountNumber, Double amount, String withdrawal);
 
     void transfer(String fromAcc, String toAcc, Double amount, String transfer);
+
+    List<Account> searchAccoutByCustomerName(String cName);
 }

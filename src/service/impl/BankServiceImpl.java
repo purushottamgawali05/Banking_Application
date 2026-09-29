@@ -1,13 +1,16 @@
 package service.impl;
 
 import domain.Account;
+import domain.Customer;
 import domain.Transaction;
 import domain.Type;
 import repository.AccountRepository;
 import repository.TransactionRepository;
+import repository.CustomerRepository;
 import service.BankService;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Comparator;
 import java.util.UUID;
@@ -17,6 +20,7 @@ public class BankServiceImpl implements BankService {
 
     public final AccountRepository accountRepository = new AccountRepository();
     public final TransactionRepository transactionRepository = new TransactionRepository();
+    public final CustomerRepository customerRepository = new CustomerRepository();
 
     @Override
     public List<Transaction> getStatement(String account) {
@@ -96,6 +100,16 @@ public class BankServiceImpl implements BankService {
         //transfer from another's to my account
         transactionRepository.add(new Transaction(UUID.randomUUID().toString(), to.getAccountNumber(),
                 Type.TRANSFER_IN, amount, LocalDateTime.now(), note));
+    }
+
+    @Override
+    public List<Account> searchAccoutByCustomerName(String c_name) {
+        String query = (c_name == null)? "": c_name.toLowerCase();
+        List<Account> result = new ArrayList<>();
+        for(Customer c : customerRepository.findAll()){
+
+        }
+        return result;
     }
 
     private String getAccountNumber() {
