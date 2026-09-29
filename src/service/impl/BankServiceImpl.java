@@ -107,7 +107,7 @@ public class BankServiceImpl implements BankService {
     }
 
     @Override
-    public List<Account> searchAccoutByCustomerName(String c_name) {
+    public List<Account> searchAccountByCustomerName(String c_name) {
         String query = (c_name == null)? "": c_name.toLowerCase();
 //        List<Account> result = new ArrayList<>();
 //        for(Customer c : customerRepository.findAll()){

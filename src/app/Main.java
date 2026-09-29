@@ -3,10 +3,6 @@ package app;
 import service.BankService;
 import service.impl.BankServiceImpl;
 
-import domain.Account;
-import domain.Customer;
-import domain.Transaction;
-
 import java.util.Scanner;
 
 public class Main {
@@ -38,7 +34,7 @@ public class Main {
         //calling methods on the basis of user input
         switch (choice){
             case "1" -> openAccount(scanner, bankService);
-            case "2" -> deposite(scanner, bankService);
+            case "2" -> deposit(scanner, bankService);
             case "3" -> withdraw(scanner, bankService);
             case "4" -> transfer(scanner, bankService);
             case "5" -> statement(scanner, bankService);
@@ -59,7 +55,7 @@ public class Main {
         System.out.println("Enter Account Type(SAVING/CURRENT): ");
         String type = scanner.nextLine().trim();
 
-        System.out.println("Enter Initial Deposite(Optional blank for 0)");
+        System.out.println("Enter Initial Deposit(Optional blank for 0)");
         String amountStr = scanner.nextLine().trim();
         //Converts string into double using Double Wrapper Class
         Double initial = Double.valueOf(amountStr);
@@ -70,7 +66,7 @@ public class Main {
         System.out.println("Account Opened: " + accountNumber);
     }
 
-    private static void deposite(Scanner scanner, BankService bankService){
+    private static void deposit(Scanner scanner, BankService bankService){
         System.out.println("Account Number: ");
         String accountNumber = scanner.nextLine().trim();
 
@@ -119,7 +115,7 @@ public class Main {
     private static void searchAccounts(Scanner scanner, BankService bankService){
         System.out.println("Customer Name Contains: ");
         String c_name = scanner.nextLine().trim();
-        bankService.searchAccoutByCustomerName(c_name).forEach(account ->
+        bankService.searchAccountByCustomerName(c_name).forEach(account ->
                 System.out.println(account.getAccountNumber() + " | " + account.getAccountType() + " | " + account.getBalance())
         );
     }
