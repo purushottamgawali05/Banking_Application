@@ -3,6 +3,10 @@ package app;
 import service.BankService;
 import service.impl.BankServiceImpl;
 
+import domain.Account;
+import domain.Customer;
+import domain.Transaction;
+
 import java.util.Scanner;
 
 public class Main {
@@ -115,7 +119,9 @@ public class Main {
     private static void searchAccounts(Scanner scanner, BankService bankService){
         System.out.println("Customer Name Contains: ");
         String c_name = scanner.nextLine().trim();
-        bankService.searchAccoutByCustomerName(c_name);
+        bankService.searchAccoutByCustomerName(c_name).forEach(account ->
+                System.out.println(account.getAccountNumber() + " | " + account.getAccountType() + " | " + account.getBalance())
+        );
     }
 
 

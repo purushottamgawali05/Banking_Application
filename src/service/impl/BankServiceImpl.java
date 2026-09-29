@@ -34,6 +34,10 @@ public class BankServiceImpl implements BankService {
         //generate random customerId and accountNumber
         String customerId = UUID.randomUUID().toString();
 
+        //Create Customer
+        Customer c = new Customer(email, customerId, name);
+        customerRepository.save(c);
+
         String accountNumber = getAccountNumber();
         Account account = new Account(accountNumber, customerId, (double) 0, accountType);
         accountRepository.save(account);
@@ -105,11 +109,19 @@ public class BankServiceImpl implements BankService {
     @Override
     public List<Account> searchAccoutByCustomerName(String c_name) {
         String query = (c_name == null)? "": c_name.toLowerCase();
-        List<Account> result = new ArrayList<>();
-        for(Customer c : customerRepository.findAll()){
-                if
-        }
-        return result;
+//        List<Account> result = new ArrayList<>();
+//        for(Customer c : customerRepository.findAll()){
+//                if(c.getName().toLowerCase().contains(query)){
+//                    result.addAll(accountRepository.findByCustomerId(c.getId()));
+//                }
+//        }
+//        result.sort(Comparator.comparing(Account::getAccountNumber));
+//        return result;
+
+        return customerRepository.findAll().stream()
+                .filter(c -> c.getName().toLowerCase().contains(query))
+                .flatMap(c -> accountRepository.findByCustomerId(c.getId()).stream())
+                .collect(Collectors.toList());
     }
 
     private String getAccountNumber() {

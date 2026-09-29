@@ -12,4 +12,8 @@ public class CustomerRepository {
     public ArrayList<Customer> findAll() {
         return new ArrayList<>(customerById.values());
     }
+
+    public void save(Customer c) {
+        customerById.put(c.getId(), c);
+    }
 }
