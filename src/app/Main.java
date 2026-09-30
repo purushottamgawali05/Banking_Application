@@ -1,9 +1,8 @@
 package app;
 
+import java.util.Scanner;
 import service.BankService;
 import service.impl.BankServiceImpl;
-
-import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
@@ -38,7 +37,7 @@ public class Main {
             case "3" -> withdraw(scanner, bankService);
             case "4" -> transfer(scanner, bankService);
             case "5" -> statement(scanner, bankService);
-            case "6" -> listAccounts(scanner, bankService);
+            case "6" -> listAccounts(bankService);
             case "7" -> searchAccounts(scanner, bankService);
             case "0" -> running = false;
         }
@@ -58,7 +57,7 @@ public class Main {
         System.out.println("Enter Initial Deposit(Optional blank for 0)");
         String amountStr = scanner.nextLine().trim();
         //Converts string into double using Double Wrapper Class
-        Double initial = Double.valueOf(amountStr);
+        double initial = amountStr.isEmpty()? 0.0: Double.parseDouble(amountStr);
         String accountNumber = bankService.openAccount(name, email, type);
         if(initial > 0){
             bankService.deposit(accountNumber, initial, "Initial Deposit");
@@ -106,7 +105,7 @@ public class Main {
         });
     }
 
-    private static void listAccounts(Scanner scanner, BankService bankService){
+    private static void listAccounts(BankService bankService){
             bankService.listAccounts().forEach(t -> {
                 System.out.println(t.getAccountNumber() + " | " + t.getAccountType() + " | " + t.getBalance());
             });
