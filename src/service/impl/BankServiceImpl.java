@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Locale;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -35,13 +36,13 @@ public class BankServiceImpl implements BankService {
     };
 
     private final Validation<String> validateType = type -> {
-        if (type == null || (!type.equalsIgnoreCase("SAVING") || type.contains("CURRENT")))
+        if (type == null || (!type.equalsIgnoreCase("SAVING") && !type.equalsIgnoreCase("CURRENT")))
             throw new ValidationException("Type must be SAVING or CURRENT");
     };
 
     private final Validation<Double> validateAmountPositive = amount -> {
         if (amount == null || amount < 0)
-            throw new ValidationException("Type must be SAVING or CURRENT");
+            throw new ValidationException("Amount must be greater than or equal to zero");
     };
 
     @Override
@@ -54,8 +55,10 @@ public class BankServiceImpl implements BankService {
     public String openAccount(String name, String email, String accountType) {
 
         validateName.validate(name);
-        validateName.validate(email);
-        validateName.validate(accountType);
+        validateEmail.validate(email);
+        validateType.validate(accountType);
+
+        String normalizedType = accountType.trim().toUpperCase(Locale.ROOT);
 
         //generate random customerId and accountNumber
         String customerId = UUID.randomUUID().toString();
@@ -65,7 +68,7 @@ public class BankServiceImpl implements BankService {
         customerRepository.save(c);
 
         String accountNumber = getAccountNumber();
-        Account account = new Account(accountNumber, customerId, (double) 0, accountType);
+        Account account = new Account(accountNumber, customerId, 0.0, normalizedType);
         accountRepository.save(account);
         return accountNumber;
     }
@@ -90,6 +93,7 @@ public class BankServiceImpl implements BankService {
 
     @Override
     public void withdraw(String accountNumber, Double amount, String note) {
+        validateAmountPositive.validate(amount);
         Account account = accountRepository.findByNumber(accountNumber)
                 .orElseThrow(() -> new AccountNotFoundException("Account Not Found: " + accountNumber));
         if (account.getBalance().compareTo(amount) < 0) {
@@ -103,6 +107,7 @@ public class BankServiceImpl implements BankService {
 
     @Override
     public void transfer(String fromAcc, String toAcc, Double amount, String note) {
+        validateAmountPositive.validate(amount);
         //if sender's and receiver's account are same
         if (fromAcc.equals(toAcc)) {
             throw new ValidationException("Cannot transfer to your own account");
