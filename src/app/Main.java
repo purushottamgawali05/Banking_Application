@@ -40,7 +40,7 @@ public class Main {
             case "6" -> listAccounts(bankService);
             case "7" -> searchAccounts(scanner, bankService);
             case "0" -> running = false;
-        }
+             }
         }
     }
 

@@ -18,12 +18,26 @@ import repository.AccountRepository;
 import repository.CustomerRepository;
 import repository.TransactionRepository;
 import service.BankService;
+import util.Validation;
 
 public class BankServiceImpl implements BankService {
 
     public final AccountRepository accountRepository = new AccountRepository();
     public final TransactionRepository transactionRepository = new TransactionRepository();
     public final CustomerRepository customerRepository = new CustomerRepository();
+
+    private final Validation<String> validateName = name -> {
+        if (name = null || name.isBlank()) throw new ValidationException("Name is required");
+    };
+
+    private final Validation<String> validateEmail = email -> {
+        if (email = null || !email.contains("@")) throw new ValidationException("Email is required");
+    };
+
+    private final Validation<String> validateType = type -> {
+        if (type = null || (!type.equalsIgnoreCase("SAVING") || type.contains("CURRENT")))
+            throw new ValidationException("Type must be SAVING or CURRENT");
+    };
 
     @Override
     public List<Transaction> getStatement(String account) {
@@ -33,6 +47,10 @@ public class BankServiceImpl implements BankService {
 
     @Override
     public String openAccount(String name, String email, String accountType) {
+
+        validateName.validate(name);
+        validateName.validate(email);
+        validateName.validate(accountType);
 
         //generate random customerId and accountNumber
         String customerId = UUID.randomUUID().toString();
