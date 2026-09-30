@@ -115,8 +115,8 @@ public class Main {
     private static void searchAccounts(Scanner scanner, BankService bankService){
         System.out.println("Customer Name Contains: ");
         String c_name = scanner.nextLine().trim();
-        bankService.searchAccountByCustomerName(c_name).forEach(account ->
-                System.out.println(account.getAccountNumber() + " | " + account.getAccountType() + " | " + account.getBalance())
+            bankService.searchAccountByCustomerName(c_name).forEach(account -> System.out.println(account.getAccountNumber() + " | " + account.getAccountType() + " | " + account.getBalance())
         );
     }
+
 }

@@ -4,17 +4,16 @@ import domain.Account;
 import domain.Customer;
 import domain.Transaction;
 import domain.Type;
-import repository.AccountRepository;
-import repository.TransactionRepository;
-import repository.CustomerRepository;
-import service.BankService;
-
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Comparator;
+import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
+import repository.AccountRepository;
+import repository.CustomerRepository;
+import repository.TransactionRepository;
+import service.BankService;
 
 public class BankServiceImpl implements BankService {
 
@@ -24,18 +23,18 @@ public class BankServiceImpl implements BankService {
 
     @Override
     public List<Transaction> getStatement(String account) {
-        return transactionRepository.findByAccount(account).stream().sorted(Comparator.comparing(Transaction :: getTimestamp)).
+        return transactionRepository.findByAccount(account).stream().sorted(Comparator.comparing(Transaction::getTimestamp)).
                 collect(Collectors.toList());
     }
 
     @Override
-    public String openAccount(String name, String email, String accountType){
+    public String openAccount(String name, String email, String accountType) {
 
         //generate random customerId and accountNumber
         String customerId = UUID.randomUUID().toString();
 
         //Create Customer
-        Customer c = new Customer(email, customerId, name);
+        Customer c = new Customer(customerId, name, email);
         customerRepository.save(c);
 
         String accountNumber = getAccountNumber();
@@ -56,8 +55,8 @@ public class BankServiceImpl implements BankService {
         Account account = accountRepository.findByNumber(accountNumber)
                 .orElseThrow(() -> new RuntimeException("Account Not Found: " + accountNumber));
         account.setBalance(account.getBalance() + amount);
-        Transaction transaction = new Transaction(UUID.randomUUID().toString(), account.getAccountNumber(), Type.DEPOSIT
-                , amount, LocalDateTime.now(), note);
+        Transaction transaction = new Transaction(UUID.randomUUID().toString(), account.getAccountNumber(), Type.DEPOSIT,
+                 amount, LocalDateTime.now(), note);
         transactionRepository.add(transaction);
     }
 
@@ -65,12 +64,12 @@ public class BankServiceImpl implements BankService {
     public void withdraw(String accountNumber, Double amount, String note) {
         Account account = accountRepository.findByNumber(accountNumber)
                 .orElseThrow(() -> new RuntimeException("Account Not Found: " + accountNumber));
-        if(account.getBalance().compareTo(amount) < 0){
+        if (account.getBalance().compareTo(amount) < 0) {
             throw new RuntimeException("Insufficient Balance");
         }
         account.setBalance(account.getBalance() - amount);
-        Transaction transaction = new Transaction(UUID.randomUUID().toString(), account.getAccountNumber(), Type.WITHDRAW
-                , amount, LocalDateTime.now(), note);
+        Transaction transaction = new Transaction(UUID.randomUUID().toString(), account.getAccountNumber(), Type.WITHDRAW,
+                 amount, LocalDateTime.now(), note);
         transactionRepository.add(transaction);
     }
 
@@ -108,12 +107,12 @@ public class BankServiceImpl implements BankService {
 
     @Override
     public List<Account> searchAccountByCustomerName(String c_name) {
-        String query = (c_name == null)? "": c_name.toLowerCase();
+        String query = (c_name == null) ? "" : c_name.toLowerCase();
         List<Account> result = new ArrayList<>();
-        for(Customer c : customerRepository.findAll()){
-                if(c.getName().toLowerCase().contains(query)){
-                    result.addAll(accountRepository.findByCustomerId(c.getId()));
-                }
+        for (Customer c : customerRepository.findAll()) {
+            if (c.getName().toLowerCase().contains(query)) {
+                result.addAll(accountRepository.findByCustomerId(c.getId()));
+            }
         }
         result.sort(Comparator.comparing(Account::getAccountNumber));
         return result;

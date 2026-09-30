@@ -1,10 +1,7 @@
 package repository;
 
 import domain.Account;
-import domain.Customer;
-
 import java.util.*;
-
 public class AccountRepository {
 
     //Saves data in the form of accountNumber and account object
