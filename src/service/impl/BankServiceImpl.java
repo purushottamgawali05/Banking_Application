@@ -10,6 +10,10 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
+
+import exceptions.AccountNotFoundException;
+import exceptions.InsufficientFundException;
+import exceptions.ValidationException;
 import repository.AccountRepository;
 import repository.CustomerRepository;
 import repository.TransactionRepository;
@@ -53,7 +57,7 @@ public class BankServiceImpl implements BankService {
     @Override
     public void deposit(String accountNumber, Double amount, String note) {
         Account account = accountRepository.findByNumber(accountNumber)
-                .orElseThrow(() -> new RuntimeException("Account Not Found: " + accountNumber));
+                .orElseThrow(() -> new AccountNotFoundException("Account Not Found: " + accountNumber));
         account.setBalance(account.getBalance() + amount);
         Transaction transaction = new Transaction(UUID.randomUUID().toString(), account.getAccountNumber(), Type.DEPOSIT,
                  amount, LocalDateTime.now(), note);
@@ -63,9 +67,9 @@ public class BankServiceImpl implements BankService {
     @Override
     public void withdraw(String accountNumber, Double amount, String note) {
         Account account = accountRepository.findByNumber(accountNumber)
-                .orElseThrow(() -> new RuntimeException("Account Not Found: " + accountNumber));
+                .orElseThrow(() -> new AccountNotFoundException("Account Not Found: " + accountNumber));
         if (account.getBalance().compareTo(amount) < 0) {
-            throw new RuntimeException("Insufficient Balance");
+            throw new InsufficientFundException("Insufficient Balance");
         }
         account.setBalance(account.getBalance() - amount);
         Transaction transaction = new Transaction(UUID.randomUUID().toString(), account.getAccountNumber(), Type.WITHDRAW,
@@ -77,18 +81,18 @@ public class BankServiceImpl implements BankService {
     public void transfer(String fromAcc, String toAcc, Double amount, String note) {
         //if sender's and receiver's account are same
         if (fromAcc.equals(toAcc)) {
-            throw new RuntimeException("Cannot transfer to your own account");
+            throw new ValidationException("Cannot transfer to your own account");
         }
         //finding the from account
         Account from = accountRepository.findByNumber(fromAcc)
                 //if the fromAcc Doesn't exist
-                .orElseThrow(() -> new RuntimeException("Account Not Found: "));
+                .orElseThrow(() -> new AccountNotFoundException("Account Not Found: "));
         Account to = accountRepository.findByNumber(toAcc)
                 //if the fromAcc Doesn't exist
-                .orElseThrow(() -> new RuntimeException("Account Not Found: "));
+                .orElseThrow(() -> new AccountNotFoundException("Account Not Found: "));
         //Check the account have that much money to transfer
         if (from.getBalance().compareTo(amount) < 0) {
-            throw new RuntimeException("Insufficient Balance");
+            throw new InsufficientFundException("Insufficient Balance");
         }
 
         //Withdraw from fromAcc
