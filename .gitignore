@@ -13,6 +13,7 @@ out/
 .springBeans
 .sts4-cache
 bin/
+project_Study/
 !**/src/main/**/bin/
 !**/src/test/**/bin/
 
